@@ -1,0 +1,29 @@
+@font-face {
+	font-family: "Passion-Bold";
+	src: url('assets/PassionOne-Bold.ttf');
+}
+@font-face {
+	font-family: "Passion-Regu";
+	src: url('assets/PassionOne-Regular.ttf');
+}
+
+html{
+  background-image : url(assets/fond.jpg);
+  background-repeat: no-repeat;
+  background-color: #000000;
+  background-size : 100% 100%;
+  font-family : "Passion-Bold", sans-serif;
+}
+span{
+  font-size:1.5em;
+  color: #2C2C2C;
+  outline: 2px outset #000a8f;
+  background-color: #dddddd;
+  font-weight:100;
+  font-family : "Passion-Regu", sans-serif;
+}
+
+h1{
+  font-size:3em;
+  color: #2C2C2C;
+}
