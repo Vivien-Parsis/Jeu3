@@ -11,16 +11,22 @@ var score = 0;
 var HarponActive = false;
 var OursinActive = true;
 var highScore = 0;
+var music;
 
 function preload() {
-    this.load.image('player', 'assets/player.png');
-    this.load.image('oursin', 'assets/oursin.png');
-    this.load.image('background', 'assets/background.png');
-    this.load.image('enfant', 'assets/bg.png');
-    this.load.image('harpon', 'assets/harpon.png');
+    this.load.image('player', 'assets/image/player.png');
+    this.load.image('oursin', 'assets/image/oursin.png');
+    this.load.image('background', 'assets/image/background.png');
+    this.load.image('enfant', 'assets/image/bg.png');
+    this.load.image('harpon', 'assets/image/harpon.png');
+    //this.load.audio('musicBG', ['assets/audio/.mp3', 'assets/audio/.ogg']);
 }
 
 function create() {
+    //music = game.add.audio('musicBG');
+    //music.loop = true;
+    //music.play();
+  
     this.q = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.Q);
     this.d = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
     this.r = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.R);
@@ -130,6 +136,7 @@ function create() {
 }
 
 function update() {
+    var pointer = this.input.activePointer;
     this.oursin.setVelocityX(0);
     this.enfant.setVelocityX(0);
     this.harpon.setVelocityX(0);
@@ -172,7 +179,7 @@ function update() {
       for(let i = 0; i < life; i++)
       {textVie += '❤️';}
     
-      let text = 'Timer: '+timeCount+'s\nHP:'+textVie+'\nScore: '+score+'\nHigh score: '+highScore;
+      let text = 'Timer: '+timeCount+'s\nHP:'+textVie+'\nScore: '+score+'\nHigh score: '+highScore+pointer.isDown;
       this.chronoText.setText(text);
       let cursors = this.input.keyboard.createCursorKeys();
       if ((cursors.left.isDown || this.q.isDown) || (cursors.right.isDown || this.d.isDown)) 

@@ -1,14 +1,14 @@
 @font-face {
 	font-family: "Passion-Bold";
-	src: url('assets/PassionOne-Bold.ttf');
+	src: url('assets/font/PassionOne-Bold.ttf');
 }
 @font-face {
 	font-family: "Passion-Regu";
-	src: url('assets/PassionOne-Regular.ttf');
+	src: url('assets/font/PassionOne-Regular.ttf');
 }
 
 html{
-  background-image : url(assets/fond.jpg);
+  background-image : url('assets/image/fond.jpg');
   background-repeat: no-repeat;
   background-color: #000000;
   background-size : 100% 100%;
@@ -18,9 +18,10 @@ span{
   font-size:1.5em;
   color: #2C2C2C;
   outline: 2px outset #000a8f;
-  background-color: #dddddd;
+  background-color: #e3e3e3;
   font-weight:100;
   font-family : "Passion-Regu", sans-serif;
+  box-shadow: 5px 5px 7px 5px #2283C4;
 }
 
 h1{
