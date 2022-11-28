@@ -1,12 +1,12 @@
 var timer;
 var chronoText;
-var win;
+var winText;
 var WinOrLose;
 var pause = false;
-var timeCount = 0;
+var timeCount = 40;
 var life = 3;
 var speedObstacle = 200;
-var speedEnfant = 150;
+var speedEnfant = 200;
 var score = 0;
 var HarponActive = false;
 var OursinActive = true;
@@ -51,7 +51,7 @@ function create() {
             && this.harpon.x+(this.harpon.displayWidth/2) < this.enfant.x+(this.enfant.displayWidth/2)));
 
     this.chronoText = this.add.text(10,10,'chrono',{fontfamily:"Passion-Regu",fill:'#dddddd',stroke:'#000000',strokeThickness:5});
-    this.win = this.add.text(config.width/3,config.height/2,'',{fontfamily:"Passion-Regu",fill:'#eeee00',stroke:'#222222',strokeThickness:6});
+    this.winText = this.add.text(config.width/3,config.height/2,'',{fontfamily:"Passion-Regu",fill:'#eeee00',stroke:'#222222',strokeThickness:6});
     
 
     this.timer = this.time.delayedCall(1000,onEvent,null,this);
@@ -123,7 +123,7 @@ function create() {
           {
             _enfant.setPosition(RandInt(_enfant.displayWidth/2,config.width - (_enfant.displayWidth/2)), -50);
             speedEnfant += 5;
-            score += 100;
+            score += 100*life;
           }
         }
       );
@@ -144,7 +144,7 @@ function update() {
       pause=false;
       WinOrLose = null;
       this.timer = this.time.delayedCall(1000,onEvent,null,this);
-      timeCount = 0;
+      timeCount = 40;
       life = 3;
       speedObstacle = 200;
       speedEnfant = 200;
@@ -168,13 +168,10 @@ function update() {
   
     if(pause==false)
     {
-      let textVie ='❤️❤️❤️';
-      if(life==2)
-      {textVie='❤️❤️';}
-      if(life==1)
-      {textVie='❤️';}
-      if(life==0)
-      {textVie='';}
+      let textVie ='';
+      for(let i = 0; i < life; i++)
+      {textVie += '❤️';}
+    
       let text = 'Timer: '+timeCount+'s\nHP:'+textVie+'\nScore: '+score+'\nHigh score: '+highScore;
       this.chronoText.setText(text);
       let cursors = this.input.keyboard.createCursorKeys();
@@ -228,13 +225,11 @@ function update() {
             && this.enfant.x-(this.enfant.displayWidth/2) < this.harpon.x+(this.harpon.displayWidth/2))
             || ((this.enfant.x+(this.enfant.displayWidth/2) > this.harpon.x-(this.harpon.displayWidth/2) 
             && this.enfant.x+(this.enfant.displayWidth/2) < this.harpon.x+(this.harpon.displayWidth/2))))
-            
             || ((this.enfant.x-(this.enfant.displayWidth/2) > this.oursin.x-(this.oursin.displayWidth/2) 
             && this.enfant.x-(this.enfant.displayWidth/2) < this.oursin.x+(this.oursin.displayWidth/2)) 
             || (this.enfant.x+(this.enfant.displayWidth/2) > this.oursin.x-(this.oursin.displayWidth/2) 
             && this.enfant.x+(this.enfant.displayWidth/2) < this.oursin.x+(this.oursin.displayWidth/2))));
     
-        
         speedEnfant += 5;
         life -= 1;
       }
@@ -242,12 +237,15 @@ function update() {
       if(this.timer.getProgress()==1)
       {
         this.timer = this.time.delayedCall(1000,onEvent,null,this);
-        timeCount += 1;
+        timeCount -= 1;
       }
         
-      if(WinOrLose == 'lose')
+      if(WinOrLose == 'lose' || WinOrLose == 'win')
       {
-        this.win.setText('You lose');  
+        if(WinOrLose == 'lose')
+        {this.winText.setText('You lose');}
+        if(WinOrLose == 'win')
+        {this.winText.setText('You Win !🏆');}
         pause = true;
         this.oursin.setVelocityY(0);
         this.player.setVelocityX(0);
@@ -257,19 +255,18 @@ function update() {
         this.player.setPosition(config.width / 2, config.height - (this.player.displayHeight/2));
         this.enfant.setPosition(RandInt(this.enfant.displayWidth/2,config.width - (this.enfant.displayWidth/2)), -50);
         this.harpon.setPosition(RandInt(this.harpon.displayWidth/2,config.width - (this.harpon.displayWidth/2)), -150);
-        if(score > highScore)
+        if(score > highScore && WinOrLose == 'win')
         {highScore=score;}
+        let text = 'Timer: '+timeCount+'s\nHP:'+textVie+'\nScore: '+score+'\nHigh score: '+highScore;
+        this.chronoText.setText(text);
       }
       
       if(life <= 0)
-      {
-        WinOrLose = 'lose';
-      }
-      
+      {WinOrLose = 'lose';}
+      if(timeCount == 0)
+      {WinOrLose = 'win'}
       if(WinOrLose == null)
-      {
-        this.win.setText(); 
-      }
+      {this.winText.setText();}
     } 
 }
 
