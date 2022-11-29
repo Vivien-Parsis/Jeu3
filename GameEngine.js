@@ -14,12 +14,12 @@ var highScore = 0;
 var music;
 
 function preload() {
-    this.load.image('player', 'assets/image/player.png');
-    this.load.image('oursin', 'assets/image/oursin.png');
-    this.load.image('background', 'assets/image/background.png');
-    this.load.image('enfant', 'assets/image/bg.png');
-    this.load.image('harpon', 'assets/image/harpon.png');
-    //this.load.audio('musicBG', ['assets/audio/.mp3', 'assets/audio/.ogg']);
+    this.load.image('player', '../assets/image/player.png');
+    this.load.image('oursin', '../assets/image/oursin.png');
+    this.load.image('background', '../assets/image/background.png');
+    this.load.image('enfant', '../assets/image/bg.png');
+    this.load.image('harpon', '../assets/image/harpon.png');
+    //this.load.audio('musicBG', ['assets/audio/musicBG.mp3', 'assets/audio/musicBG.ogg']);
 }
 
 function create() {
@@ -179,7 +179,8 @@ function update() {
       for(let i = 0; i < life; i++)
       {textVie += '❤️';}
     
-      let text = 'Timer: '+timeCount+'s\nHP:'+textVie+'\nScore: '+score+'\nHigh score: '+highScore+pointer.isDown;
+      let text = 'Timer: '+timeCount+'s\nHP:'+textVie+'\nScore: '+score+'\nHigh score: '+highScore;
+      //  let debugtext = '\n'+pointer.x+'\n'+this.player.x+'\n'+this.player.displayWidth;text += debugtext;
       this.chronoText.setText(text);
       let cursors = this.input.keyboard.createCursorKeys();
       if ((cursors.left.isDown || this.q.isDown) || (cursors.right.isDown || this.d.isDown)) 
@@ -224,7 +225,13 @@ function update() {
         }
         speedObstacle += 10;
       }
-
+      
+      if(pointer.isDown 
+         && pointer.x>(this.player.x-(this.player.displayWidth/2)) && pointer.x<(this.player.x+(this.player.displayWidth/2))
+         && pointer.x>this.player.displayWidth/2 && pointer.x<config.width-(this.player.displayWidth/2)
+         && pointer.y>this.player.y-this.player.displayHeight)
+      {this.player.setPosition(pointer.x, this.player.y);}
+      
       if(this.enfant.y > config.height+(this.enfant.displayWidth/2))
       {
         do{this.enfant.setPosition(RandInt(this.enfant.displayWidth/2,config.width - (this.enfant.displayWidth/2)), -50);}
@@ -278,7 +285,7 @@ function update() {
 }
 
 function onEvent()
-  {console.log('time out');}
+  {console.log(null);}
 
 function RandInt(min, max)
 {
