@@ -1,9 +1,6 @@
-var timer;
-var chronoText;
-var winText;
 var WinOrLose;
 var pause = false;
-var timeCount = 40;
+var timeCount = 0;
 var life = 3;
 var speedObstacle = 200;
 var speedEnfant = 200;
@@ -64,7 +61,7 @@ function create() {
     this.winText = this.add.text(config.width/3,config.height/2,'',{fontfamily:"Passion-Regu",fill:'#eeee00',stroke:'#222222',strokeThickness:6});
     
 
-    this.timer = this.time.delayedCall(1000,onEvent,null,this);
+    this.timer = this.time.delayedCall(1000,null,null,this);
     
     this.ColisionPlOr = this.physics.add.collider
       (
@@ -78,7 +75,7 @@ function create() {
           {
             life -= 1;
             _oursin.setPosition(RandInt(_oursin.displayWidth/2,config.width - (_oursin.displayWidth/2)), -50);
-            speedObstacle += 10;
+            //speedObstacle += 10;
             let randSelect = RandInt(0,2);
             if(randSelect==0)
             {
@@ -106,7 +103,7 @@ function create() {
           {
              life -= 1;
             _harpon.setPosition(RandInt(_harpon.displayWidth/2,config.width - (_harpon.displayWidth/2)), -50);
-            speedObstacle += 10;
+            //speedObstacle += 10;
             let randSelect = RandInt(0,2);
             if(randSelect==0)
             {
@@ -132,7 +129,7 @@ function create() {
              || _player.body.touching.right && _enfant.body.touching.left)
           {
             _enfant.setPosition(RandInt(_enfant.displayWidth/2,config.width - (_enfant.displayWidth/2)), -50);
-            speedEnfant += 5;
+            //speedEnfant += 5;
             score += 100*life;
           }
         }
@@ -158,8 +155,8 @@ function update() {
     {
       pause=false;
       WinOrLose = null;
-      this.timer = this.time.delayedCall(1000,onEvent,null,this);
-      timeCount = 40;
+      this.timer = this.time.delayedCall(1000,null,null,this);
+      timeCount = 0;
       life = 3;
       speedObstacle = 200;
       speedEnfant = 200;
@@ -231,13 +228,16 @@ function update() {
           HarponActive = false;
           OursinActive = true;
         }
-        speedObstacle += 10;
+        //speedObstacle += 10;
       }
       
       if(pointer.isDown 
-         && pointer.x>(this.player.x-(this.player.displayWidth/2)) && pointer.x<(this.player.x+(this.player.displayWidth/2))
-         && pointer.x>this.player.displayWidth/2 && pointer.x<config.width-(this.player.displayWidth/2)
-         && pointer.y>this.player.y-this.player.displayHeight)
+         && pointer.x>(this.player.x-(this.player.displayWidth/2)) 
+         && pointer.x<(this.player.x+(this.player.displayWidth/2))
+         && pointer.x>this.player.displayWidth/2 
+         && pointer.x<config.width-(this.player.displayWidth/2)
+         && pointer.y>this.player.y-this.player.displayHeight
+         && pointer.y<this.player.y+this.player.displayHeight)
       {this.player.setPosition(pointer.x, this.player.y);}
       
       if(this.enfant.y > config.height+(this.enfant.displayWidth/2))
@@ -252,22 +252,25 @@ function update() {
             || (this.enfant.x+(this.enfant.displayWidth/2) > this.oursin.x-(this.oursin.displayWidth/2) 
             && this.enfant.x+(this.enfant.displayWidth/2) < this.oursin.x+(this.oursin.displayWidth/2))));
     
-        speedEnfant += 5;
+        //speedEnfant += 5;
         life -= 1;
       }
       
       if(this.timer.getProgress()==1)
       {
-        this.timer = this.time.delayedCall(1000,onEvent,null,this);
-        timeCount -= 1;
+        this.timer = this.time.delayedCall(1000,null,null,this);
+        timeCount += 1;
       }
         
-      if(WinOrLose == 'lose' || WinOrLose == 'win')
+      if(WinOrLose == 'lose')
       {
         if(WinOrLose == 'lose')
-        {this.winText.setText('You lose');}
-        if(WinOrLose == 'win')
-        {this.winText.setText('You Win !🏆');}
+        {
+          this.winText.setText('You lose');
+          this.winText.setPosition((config.width/2)-(this.winText.displayWidth/2),(config.height/2)-(this.winText.displayHeight/2));
+        }
+        //if(WinOrLose == 'win')
+        //{this.winText.setText('You Win !🏆');}
         pause = true;
         this.oursin.setVelocityY(0);
         this.player.setVelocityX(0);
@@ -277,7 +280,7 @@ function update() {
         this.player.setPosition(config.width / 2, config.height - (this.player.displayHeight/2));
         this.enfant.setPosition(RandInt(this.enfant.displayWidth/2,config.width - (this.enfant.displayWidth/2)), -50);
         this.harpon.setPosition(RandInt(this.harpon.displayWidth/2,config.width - (this.harpon.displayWidth/2)), -150);
-        if(score > highScore && WinOrLose == 'win')
+        if(score > highScore)
         {highScore=score;}
         let text = 'Timer: '+timeCount+'s\nHP:'+textVie+'\nScore: '+score+'\nHigh score: '+highScore;
         this.chronoText.setText(text);
@@ -285,15 +288,14 @@ function update() {
       
       if(life <= 0)
       {WinOrLose = 'lose';}
-      if(timeCount == 0)
-      {WinOrLose = 'win'}
+      //if(timeCount == 0)
+      //{WinOrLose = 'win'}
       if(WinOrLose == null)
       {this.winText.setText();}
     } 
 }
 
-function onEvent()
-  {console.log(null);}
+
 
 function RandInt(min, max)
 {
@@ -306,7 +308,7 @@ const config = {
     type: Phaser.AUTO,
     width: 400,
     height: 550,
-    //autoCenter: true,
+    autoCenter: Phaser.Scale.CENTER_HORIZONTALLY,
     backgroundColor: '#020E55',
     physics: {
         default: 'arcade',
