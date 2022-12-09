@@ -2,8 +2,8 @@ var WinOrLose;
 var pause = false;
 var timeCount = 0;
 var life = 3;
-var speedObstacle = 200;
-var speedEnfant = 200;
+var speedObstacle = 250;
+var speedEnfant = 250;
 var score = 0;
 var HarponActive = false;
 var OursinActive = true;
@@ -74,7 +74,7 @@ function create() {
              || _player.body.touching.right && _oursin.body.touching.left)
           {
             life -= 1;
-            _oursin.setPosition(RandInt(_oursin.displayWidth/2,config.width - (_oursin.displayWidth/2)), -50);
+            _oursin.setPosition(RandInt(_oursin.displayWidth/2,config.width - (_oursin.displayWidth/2)), -_oursin.displayHeight);
             //speedObstacle += 10;
             let randSelect = RandInt(0,2);
             if(randSelect==0)
@@ -102,7 +102,7 @@ function create() {
              || _player.body.touching.right && _harpon.body.touching.left)
           {
              life -= 1;
-            _harpon.setPosition(RandInt(_harpon.displayWidth/2,config.width - (_harpon.displayWidth/2)), -50);
+            _harpon.setPosition(RandInt(_harpon.displayWidth/2,config.width - (_harpon.displayWidth/2)), -_harpon.displayHeight);
             //speedObstacle += 10;
             let randSelect = RandInt(0,2);
             if(randSelect==0)
@@ -128,7 +128,7 @@ function create() {
              || _player.body.touching.left && _enfant.body.touching.right
              || _player.body.touching.right && _enfant.body.touching.left)
           {
-            _enfant.setPosition(RandInt(_enfant.displayWidth/2,config.width - (_enfant.displayWidth/2)), -50);
+            _enfant.setPosition(RandInt(_enfant.displayWidth/2,config.width - (_enfant.displayWidth/2)), -_enfant.displayHeight);
             //speedEnfant += 5;
             score += 100*life;
           }
@@ -158,20 +158,20 @@ function update() {
       this.timer = this.time.delayedCall(1000,null,null,this);
       timeCount = 0;
       life = 3;
-      speedObstacle = 200;
-      speedEnfant = 200;
+      peedObstacle = 250;
+      speedEnfant = 250;
       score = 0;
       this.player.setVelocityX(0);
-      this.enfant.setPosition(RandInt(this.enfant.displayWidth/2,config.width - (this.enfant.displayWidth/2)), -50);
+      this.enfant.setPosition(RandInt(this.enfant.displayWidth/2,config.width - (this.enfant.displayWidth/2)), -this.enfant.displayHeight);
       this.player.setPosition(config.width / 2, config.height - (this.player.displayHeight/2));
       
-      do{this.oursin.setPosition(RandInt(this.oursin.displayWidth/2,config.width - (this.oursin.displayWidth/2)), -150);}
+      do{this.oursin.setPosition(RandInt(this.oursin.displayWidth/2,config.width - (this.oursin.displayWidth/2)), -this.oursin.displayWidth);}
         while((this.oursin.x-(this.oursin.displayWidth/2) > this.enfant.x-(this.enfant.displayWidth/2) 
             && this.oursin.x-(this.oursin.displayWidth/2) < this.enfant.x+(this.enfant.displayWidth/2)) 
             || (this.oursin.x+(this.oursin.displayWidth/2) > this.enfant.x-(this.enfant.displayWidth/2) 
             && this.oursin.x+(this.oursin.displayWidth/2) < this.enfant.x+(this.enfant.displayWidth/2)));
     
-      do{this.harpon.setPosition(RandInt(this.harpon.displayWidth/2,config.width - (this.harpon.displayWidth/2)), -150);}
+      do{this.harpon.setPosition(RandInt(this.harpon.displayWidth/2,config.width - (this.harpon.displayWidth/2)), -this.harpon.displayHeight);}
         while((this.harpon.x-(this.harpon.displayWidth/2) > this.enfant.x-(this.enfant.displayWidth/2) 
             && this.harpon.x-(this.harpon.displayWidth/2) < this.enfant.x+(this.enfant.displayWidth/2)) 
             || (this.harpon.x+(this.harpon.displayWidth/2) > this.enfant.x-(this.enfant.displayWidth/2) 
@@ -206,13 +206,13 @@ function update() {
       
       if(this.oursin.y > config.height+(this.oursin.displayWidth/2) ||this.harpon.y > config.height+(this.oursin.displayWidth/2))
       {
-        do{this.oursin.setPosition(RandInt(this.oursin.displayWidth/2,config.width - (this.oursin.displayWidth/2)), -150);}
+        do{this.oursin.setPosition(RandInt(this.oursin.displayWidth/2,config.width - (this.oursin.displayWidth/2)), -this.oursin.displayHeight);}
         while((this.oursin.x-(this.oursin.displayWidth/2) > this.enfant.x-(this.enfant.displayWidth/2) 
             && this.oursin.x-(this.oursin.displayWidth/2) < this.enfant.x+(this.enfant.displayWidth/2)) 
             || (this.oursin.x+(this.oursin.displayWidth/2) > this.enfant.x-(this.enfant.displayWidth/2) 
             && this.oursin.x+(this.oursin.displayWidth/2) < this.enfant.x+(this.enfant.displayWidth/2)));
     
-      do{this.harpon.setPosition(RandInt(this.harpon.displayWidth/2,config.width - (this.harpon.displayWidth/2)), -150);}
+      do{this.harpon.setPosition(RandInt(this.harpon.displayWidth/2,config.width - (this.harpon.displayWidth/2)), -this.harpon.displayHeight);}
         while((this.harpon.x-(this.harpon.displayWidth/2) > this.enfant.x-(this.enfant.displayWidth/2) 
             && this.harpon.x-(this.harpon.displayWidth/2) < this.enfant.x+(this.enfant.displayWidth/2)) 
             || (this.harpon.x+(this.harpon.displayWidth/2) > this.enfant.x-(this.enfant.displayWidth/2) 
@@ -242,7 +242,7 @@ function update() {
       
       if(this.enfant.y > config.height+(this.enfant.displayWidth/2))
       {
-        do{this.enfant.setPosition(RandInt(this.enfant.displayWidth/2,config.width - (this.enfant.displayWidth/2)), -50);}
+        do{this.enfant.setPosition(RandInt(this.enfant.displayWidth/2,config.width - (this.enfant.displayWidth/2)), -this.enfant.displayHeight);}
         while(((this.enfant.x-(this.enfant.displayWidth/2) > this.harpon.x-(this.harpon.displayWidth/2) 
             && this.enfant.x-(this.enfant.displayWidth/2) < this.harpon.x+(this.harpon.displayWidth/2))
             || ((this.enfant.x+(this.enfant.displayWidth/2) > this.harpon.x-(this.harpon.displayWidth/2) 
@@ -264,11 +264,9 @@ function update() {
         
       if(WinOrLose == 'lose')
       {
-        if(WinOrLose == 'lose')
-        {
-          this.winText.setText('You lose');
-          this.winText.setPosition((config.width/2)-(this.winText.displayWidth/2),(config.height/2)-(this.winText.displayHeight/2));
-        }
+        this.winText.setText('You lose');
+        this.winText.setPosition((config.width/2)-(this.winText.displayWidth/2),(config.height/2)-(this.winText.displayHeight/2));
+        
         //if(WinOrLose == 'win')
         //{this.winText.setText('You Win !🏆');}
         pause = true;
@@ -276,10 +274,10 @@ function update() {
         this.player.setVelocityX(0);
         this.enfant.setVelocityY(0);
         this.harpon.setVelocityY(0);
-        this.oursin.setPosition(RandInt(this.oursin.displayWidth/2,config.width - (this.oursin.displayWidth/2)), -150);
+        this.oursin.setPosition(RandInt(this.oursin.displayWidth/2,config.width - (this.oursin.displayWidth/2)), -this.oursin.displayHeight);
         this.player.setPosition(config.width / 2, config.height - (this.player.displayHeight/2));
-        this.enfant.setPosition(RandInt(this.enfant.displayWidth/2,config.width - (this.enfant.displayWidth/2)), -50);
-        this.harpon.setPosition(RandInt(this.harpon.displayWidth/2,config.width - (this.harpon.displayWidth/2)), -150);
+        this.enfant.setPosition(RandInt(this.enfant.displayWidth/2,config.width - (this.enfant.displayWidth/2)), -this.enfant.displayHeight);
+        this.harpon.setPosition(RandInt(this.harpon.displayWidth/2,config.width - (this.harpon.displayWidth/2)), -this.harpon.displayHeight);
         if(score > highScore)
         {highScore=score;}
         let text = 'Timer: '+timeCount+'s\nHP:'+textVie+'\nScore: '+score+'\nHigh score: '+highScore;
